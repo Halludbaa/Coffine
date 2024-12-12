@@ -1,0 +1,1 @@
+Make A "uploads" folder to storage the media post
