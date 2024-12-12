@@ -1,0 +1,28 @@
+{
+    "name": "hallax/clone",
+    "description": "This project for school",
+    "type": "project",
+    
+    "authors": [
+        {
+            "name": "Zirvor",
+            "email": "rinfaabdullah@gmail.com"
+        }
+    ],
+    "require": {
+        "php": ">=8"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "9.5.8"
+    },
+    "autoload": {
+        "psr-4": {
+            "Hallax\\Clone\\": "app"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Hallax\\Clone\\": "test"
+        }
+    }
+}
