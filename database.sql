@@ -1,5 +1,41 @@
 -- This script only contains the table creation statements and does not fully represent the table in the database. Do not use it as a backup.
 
+CREATE TABLE "public"."tbl_user" (
+    "id_user" int4 NOT NULL DEFAULT nextval('tbl_user_id_user_seq'::regclass),
+    "username" varchar(255) NOT NULL,
+    "display_name" varchar(255),
+    "email" varchar(255),
+    "password" text,
+    "photo_profile" varchar,
+    PRIMARY KEY ("username")
+);
+
+-- Indices
+CREATE UNIQUE INDEX tbl_user_id_user_key ON public.tbl_user USING btree (id_user);
+
+
+-- Sequence and defined type
+CREATE SEQUENCE IF NOT EXISTS tbl_post_id_post_seq;
+
+-- Table Definition
+CREATE TABLE "public"."tbl_post" (
+    "id_post" int4 NOT NULL DEFAULT nextval('tbl_post_id_post_seq'::regclass),
+    "username" varchar(255),
+    "body_post" text,
+    "media" varchar,
+    "slug" varchar,
+    "create_at" timestamp DEFAULT CURRENT_TIMESTAMP,
+    "reply" varchar,
+    CONSTRAINT "user_fk" FOREIGN KEY ("username") REFERENCES "public"."tbl_user"("username") ON DELETE CASCADE,
+    PRIMARY KEY ("id_post")
+);
+
+
+-- Indices
+CREATE INDEX slug_post ON public.tbl_post USING btree (slug);
+CREATE UNIQUE INDEX unq_slug ON public.tbl_post USING btree (slug);
+
+
 -- Table Definition
 CREATE TABLE "public"."tbl_follow" (
     "followed" varchar(255),
@@ -23,27 +59,6 @@ CREATE TABLE "public"."tbl_like" (
 
 -- This script only contains the table creation statements and does not fully represent the table in the database. Do not use it as a backup.
 
--- Sequence and defined type
-CREATE SEQUENCE IF NOT EXISTS tbl_post_id_post_seq;
-
--- Table Definition
-CREATE TABLE "public"."tbl_post" (
-    "id_post" int4 NOT NULL DEFAULT nextval('tbl_post_id_post_seq'::regclass),
-    "username" varchar(255),
-    "body_post" text,
-    "media" varchar,
-    "slug" varchar,
-    "create_at" timestamp DEFAULT CURRENT_TIMESTAMP,
-    "reply" varchar,
-    CONSTRAINT "user_fk" FOREIGN KEY ("username") REFERENCES "public"."tbl_user"("username") ON DELETE CASCADE,
-    PRIMARY KEY ("id_post")
-);
-
-
--- Indices
-CREATE INDEX slug_post ON public.tbl_post USING btree (slug)
-CREATE UNIQUE INDEX unq_slug ON public.tbl_post USING btree (slug);
-
 -- This script only contains the table creation statements and does not fully represent the table in the database. Do not use it as a backup.
 
 -- Table Definition
@@ -62,17 +77,4 @@ CREATE TABLE "public"."tbl_save" (
 CREATE SEQUENCE IF NOT EXISTS tbl_user_id_user_seq;
 
 -- Table Definition
-CREATE TABLE "public"."tbl_user" (
-    "id_user" int4 NOT NULL DEFAULT nextval('tbl_user_id_user_seq'::regclass),
-    "username" varchar(255) NOT NULL,
-    "display_name" varchar(255),
-    "email" varchar(255),
-    "password" text,
-    "photo_profile" varchar,
-    PRIMARY KEY ("username")
-);
-
-
--- Indices
-CREATE UNIQUE INDEX tbl_user_id_user_key ON public.tbl_user USING btree (id_user);
 
